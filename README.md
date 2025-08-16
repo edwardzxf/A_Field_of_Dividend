@@ -6,101 +6,82 @@
 
 **Release:** Aug 2025
 
-**Download at SSRN:** https://papers.ssrn.com/sol3/papers.cfm?abstract_id=4255987
+This repository provides materials to reproduce the empirical results for **“Investor Communication and Payout Policy: A Field Experiment.”** The analysis uses **Stata** (for estimation and tables) and **SAS** (only if you wish to rebuild the dataset from CSMAR).
 
-This repository contains the materials to reproduce the statistics and tables for **“Investor Communication and Payout Policy: A Field Experiment.”** The workflow uses **SAS** for data construction and **Stata** for statistical analysis and table generation.
+## Paper (SSRN)
+
+The paper is available on SSRN: [https://papers.ssrn.com/sol3/papers.cfm?abstract\_id=4255987](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=4255987)
+
+---
+
+## 🔽 One-file download
+
+All data and code are packaged into a single archive:
+
+**`Data_Code_A_Field_of_Dividend.zip`**
+
+Download this file from the repository, unzip it anywhere on your machine, and work **inside the unzipped folder**.
 
 ---
 
 ## 🚀 Quick start (no CSMAR access needed)
 
-**Good news:** The **final combined dataset `wxxz_rof_regdata.dta` is included in this repository** (see `data/processed/`). With this file you can reproduce the main tables directly in Stata—**no CSMAR access required**.
+The archive **includes the final combined dataset**:
 
-1. Open Stata and set the repo as your working directory.
-2. Run:
+* `wxxz_rof_regdata.dta`
 
-   ```stata
-   do code/stata/RoF_Regression_Results.do
-   ```
+With this file, you can reproduce the main results directly in Stata.
 
-   This reproduces **Tables 2–6** and the **appendix tables**.
-3. For additional online-appendix regressions, run:
+1. Open Stata and set the working directory to the unzipped folder:
 
    ```stata
-   do code/stata/RoF_Regression_OnlineApp.do
+   cd "path/to/Data_Code_A_Field_of_Dividend"
+   ```
+2. Reproduce **Tables 2–6** and the **appendix tables**:
+
+   ```stata
+   do RoF_Regression_Results.do
+   ```
+3. Generate **additional online-appendix regressions**:
+
+   ```stata
+   do RoF_Regression_OnlineApp.do
    ```
 
 ---
 
-## Repository structure
+## What’s inside the ZIP
 
-```
-.
-├── code
-│   ├── sas/                    # 0.N.name.sas, RoF_1.sas ... RoF_4.sas
-│   └── stata/                  # RoF_Regression_Results.do, RoF_Regression_OnlineApp.do
-├── data
-│   ├── raw/                    # (not included) licensed CSMAR inputs
-│   └── processed/
-│       └── wxxz_rof_regdata.dta   # INCLUDED final combined dataset for Stata
-├── output
-│   ├── tables/                 # Table 1; Tables 2–6; appendix tables
-│   └── logs/                   # SAS/Stata logs
-└── README.md
-```
+* `wxxz_rof_regdata.dta` — analysis-ready Stata dataset (**included**).
+* `RoF_Regression_Results.do` — reproduces Tables 2–6 and appendix tables.
+* `RoF_Regression_OnlineApp.do` — additional online-appendix regressions.
+* (Optional) SAS scripts showing the original construction from CSMAR:
+
+  * `0.N.name.sas` (N = 1,…,8) — clean individual CSMAR files
+  * `RoF_1.sas`, `RoF_2.sas`, `RoF_3.sas` — merge and construct final regression dataset
+  * `RoF_4.sas` — compute Table 1 and Online Appendix 6 & 8
+  * (During development, an intermediate `wxxz_rof_regdata.sas7bdat` was exported to `.dta`)
 
 ---
 
-## Data
+## Software
 
-All original datasets are sourced from **CSMAR**. Because CSMAR is a licensed database, the **raw files are not distributed** here.
-However, to enable full replication of the main results, **we include the final combined Stata dataset**:
-
-* `data/processed/wxxz_rof_regdata.dta` — the analysis-ready file used by the Stata scripts.
-
-(For completeness: during development, intermediate SAS files such as `wxxz_rof_regdata.sas7bdat` were created before exporting to Stata.)
-
----
-
-## Code workflow (SAS → Stata)
-
-The SAS scripts document how the dataset was originally built from CSMAR. Running them is **optional** if you use the included `wxxz_rof_regdata.dta`.
-
-| Purpose                                                      | Code name(s)                         | Input data used        |
-| ------------------------------------------------------------ | ------------------------------------ | ---------------------- |
-| Clean firm fundamental information                           | `0.N.name.sas` where **N ∈ {1,…,8}** | CSMAR                  |
-| Combine firm fundamental information                         | `RoF_1.sas`                          | CSMAR                  |
-| Construct treatment/control sample                           | `RoF_2.sas`                          | CSMAR                  |
-| Generate final regression dataset                            | `RoF_3.sas`                          | CSMAR                  |
-| Generate statistics (**Table 1**), Online Appendix **6 & 8** | `RoF_4.sas`                          | CSMAR                  |
-| Generate **Tables 2–6** and remaining appendix tables        | `RoF_Regression_Results.do`          | `wxxz_rof_regdata.dta` |
-
-*Also included:* `RoF_Regression_OnlineApp.do` for additional online-appendix regressions.
-
----
-
-## Software requirements
-
-* SAS (9.4 or later recommended) — only needed to rebuild from raw CSMAR inputs
-* Stata (16 or later recommended) — needed to reproduce Tables 2–6 and appendix tables using the included dataset
+* **Stata 16+** — to replicate Tables 2–6 and appendix tables using the included dataset.
+* **SAS 9.4+** — only if rebuilding the dataset from licensed CSMAR inputs (not required for replication).
 
 ---
 
 ## Notes
 
 * Variable definitions follow **Appendix 1** of the paper.
-* If you change the folder layout, update the path globals or `cd` lines at the top of each `.do` file.
+* If you move files, adjust the working directory (`cd`) at the top of the `.do` files.
 
 ---
 
 ## Citation
 
-If you use these materials, please cite:
+Please cite:
 
-> Wang, X., Xie, J., Zhang, B., & Zhao, X. (2025). **Investor Communication and Payout Policy: A Field Experiment.** *Review of Finance*, _Forthcoming_.
+> Wang, X., Xie, J., Zhang, B., & Zhao, X. (2025). *Investor Communication and Payout Policy: A Field Experiment.* Review of Finance.
 
----
-
-## Contact
-
-For replication questions, please open a GitHub issue in this repository.
+For questions, please open an issue in this repository.
